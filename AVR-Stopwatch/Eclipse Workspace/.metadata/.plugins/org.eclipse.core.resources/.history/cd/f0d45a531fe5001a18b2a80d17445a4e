@@ -1,0 +1,9 @@
+
+#ifndef INTERRUPT_H_
+#define INTERRUPT_H_
+
+#include <avr/interrupt.h>
+
+void interrupts_init();
+
+#endif /* INTERRUPT_H_ */

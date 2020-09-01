@@ -1,0 +1,122 @@
+/********************************************************************************************************
+ *
+ * 										Multiplexed (x6) 7-Segment Display.
+ *
+ * 		Hardware Configuration:
+ *
+ * 			- Timer1 CTC Mode.
+ *
+ * 			Inputs:
+ * 				- PD2 (INT0) -> Falling Edge w/ Internal Pull-Up   Resistor.
+ * 				- PD3 (INT1) -> Rising  Edge w/ External Pull-Down Resistor.
+ * 				- PB2 (INT2) -> Falling Edge w/ Internal Pull-Up   Resistor.
+ *
+ * 			Outputs:
+ * 				- (PC0: PC3) -> Connected respectively to (A: D)     of a 74LS47 Decoder.
+ * 				- (PA0: PA5) -> Connected respectively to (EN1: EN6) of a 74LS47 Decoder.
+ *
+ *
+ *
+ * 		Program Logic:
+ *
+ * 			The MCU should drive an x6 multiplexed 7-segment display to act as a stop watch,
+ * 			incrementing every 1 second.
+ *
+ * 			INT0: Reset.
+ * 			INT1: Pause.
+ * 			INT2: Resume.
+ *
+ ********************************************************************************************************/
+
+#include <util/delay.h>
+
+#include "display.h"
+#include "timer.h"
+#include "interrupt.h"
+
+// Number of 7-segment displays
+#define NUM_DISPLAYS 6
+
+// Each counter in the array controls 1 display
+unsigned char COUNTER[NUM_DISPLAYS] = {0};
+
+// Interrupt flags
+unsigned char flag_INT0 = 0, flag_INT1 = 0, flag_INT2 = 0;
+
+
+int main() {
+
+	/***** Variables Initialization *****/
+	short i;
+
+
+	/***** Ports Initialization *****/
+	display_init();
+	interrupts_init();
+	timer_1_CTC_init(1000);
+
+
+	/***** Main Loop *****/
+	for(;;) {
+
+		// ***************************************** INT0
+		if(flag_INT0) {
+
+			// Reset all counters
+			for(i = 0; i < NUM_DISPLAYS; i++) {
+				COUNTER[i] = 0;
+			}
+			flag_INT0 = 0;
+		}
+
+		// ***************************************** INT1
+		else if(flag_INT1) {
+			stop_timer();
+			flag_INT1 = 0;
+		}
+
+		// ***************************************** INT2
+		else if(flag_INT2) {
+			restart_timer();
+			flag_INT2 = 0;
+		}
+
+		// ***************************************** Normal Operation
+		else {
+
+			// Update Counters
+			for(i = NUM_DISPLAYS - 1; i >= 0; i--) {
+				if(COUNTER[i] > 9) {
+					COUNTER[i] = 0;
+					COUNTER[i - 1]++;
+				}
+			}
+
+			// Display Counters
+			for(i = 0; i < NUM_DISPLAYS; i++) {
+				display_enable(i);
+				display_send_num(COUNTER[i]);
+				_delay_us(1);
+			}
+		}
+	}
+}
+
+
+ISR(TIMER1_COMPA_vect) {
+
+	// Increment the right-most display's counter
+	COUNTER[NUM_DISPLAYS - 1]++;
+}
+
+ISR(INT0_vect) {
+	flag_INT0 = 1;
+}
+
+ISR(INT1_vect) {
+	flag_INT1 = 1;
+}
+
+ISR(INT2_vect) {
+	flag_INT2 = 1;
+}

@@ -1,0 +1,14 @@
+
+#include "timer.h"
+
+void timer_1_CTC_init(unsigned int time_ms) {
+
+	TCCR1A = (1 << FOC1A) | (1 << FOC1B);					// Mode: 4 (CTC with TOP: OCR1A)
+	TCCR1B = (1 << WGM12) | (1 << CS10) | (1 << CS11);		// Pre-scaler N = 64
+	TCNT1 = 0;												// Initialize counter at 0
+	unsigned int top = time_ms * 1000 / 64;
+	OCR1A = top;											// Compare Value = 15625 (1 second)
+
+	TIMSK |= (1 << OCIE1A);									// Enable Output Compare A Match Interrupt
+	SREG |= (1 << 7);										// Enable I-bit (Global Interrupt)
+}

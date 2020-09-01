@@ -1,0 +1,78 @@
+/********************************************************************************************************
+ *
+ * 										Multiplexed 7-Segment Display.
+ *
+ * 		Hardware Configuration:
+ *
+ * 			- Timer1 CTC Mode.
+ *
+ * 			Inputs:
+ * 				- PD2 (INT0) -> Falling Edge w/ Internal Pull-Up   Resistor.
+ * 				- PD3 (INT1) -> Rising  Edge w/ External Pull-Down Resistor.
+ * 				- PB2 (INT2) -> Falling Edge w/ Internal Pull-Up   Resistor.
+ *
+ * 			Outputs:
+ * 				- (PC0: PC3) -> Connected respectively to (A: D) of a 74LS47 Decoder.
+ * 				- (PA1: PA6) -> Connected respectively to (EN1: EN6) of a 74LS47 Decoder.
+ *
+ *
+ *
+ * 		Program Logic:
+ *
+ * 			The MCU should drive an x6 multiplexed 7-segment display to act as a stop watch,
+ * 			incrementing every 1 second.
+ *
+ * 			INT0: Reset.
+ * 			INT1: Pause.
+ * 			INT2: Resume.
+ *
+ ********************************************************************************************************/
+
+#include <avr/interrupt.h>
+#include <util/delay.h>
+#include "decoder.h"
+#include "timer.h"
+
+#define NUM_DISPLAYS 6
+
+unsigned char COUNTER[NUM_DISPLAYS] = {0};
+
+
+int main() {
+
+	/***** Variables Initialization *****/
+	char i;
+
+	/***** Ports Initialization *****/
+	decoder_init();
+	timer_1_CTC_init(1000);
+
+	// DEBUGGING
+	DDRC |= (1 << PC4);
+	PORTC &= ~(1 << PC4);
+
+	/***** Main Loop *****/
+	for(;;) {
+
+		// Update Counters
+		for(i = NUM_DISPLAYS - 1; i >= 0; i--) {
+			if(COUNTER[i] > 9) {
+				COUNTER[i] = 0;
+				COUNTER[i - 1]++;
+			}
+		}
+
+		// Display Counters
+		for(i = 0; i < NUM_DISPLAYS; i++) {
+			enable_display_x_disable_rest(i);
+			send_num(COUNTER[i]);
+			_delay_us(100);
+		}
+	}
+}
+
+
+ISR(TIMER1_COMPA_vect) {
+	COUNTER[NUM_DISPLAYS - 1]++;
+	PORTC ^= (1 << PC4);
+}

@@ -1,0 +1,11 @@
+
+#ifndef DECODER_H_
+#define DECODER_H_
+
+#include <avr/io.h>
+
+void decoder_init();
+void send_num(unsigned char num);
+void enable_display_x_disable_rest(unsigned char display);
+
+#endif /* DECODER_H_ */

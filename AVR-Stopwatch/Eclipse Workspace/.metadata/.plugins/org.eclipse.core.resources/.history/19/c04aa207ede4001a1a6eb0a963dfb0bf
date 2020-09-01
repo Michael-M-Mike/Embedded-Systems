@@ -1,0 +1,45 @@
+
+#include "decoder.h"
+
+void decoder_init() {
+
+	DDRA |= 0x7E;		// PA1: PA6 -> Output
+	PORTA &= ~(0x7E);	// PA1: PA6 = 0 (Disable all displays)
+
+	DDRC |= 0x0F;		// PC0: PC3 -> Output
+	PORTC &= ~(0x0F);	// PC0: PC3 = 0 (Display zeros)
+}
+
+void send_num(unsigned char num) {
+
+//num = ~(num);		// Invert num to work with common anode decoder
+
+	PORTC &= 0xF0;		// Clear current num
+	PORTC |= num;		// Set current num
+}
+
+void enable_display_x_disable_rest(unsigned char display) {
+
+	PORTA &= ~(0x7E);	// Disable all displays
+
+	switch (display) {
+		case 1:
+			PORTA |= (1 << PA1);	// Enable display 1
+			break;
+		case 2:
+			PORTA |= (1 << PA2);	// Enable display 2
+			break;
+		case 3:
+			PORTA |= (1 << PA3);	// Enable display 3
+			break;
+		case 4:
+			PORTA |= (1 << PA4);	// Enable display 4
+			break;
+		case 5:
+			PORTA |= (1 << PA5);	// Enable display 5
+			break;
+		case 6:
+			PORTA |= (1 << PA6);	// Enable display 6
+			break;
+	}
+}

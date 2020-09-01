@@ -1,0 +1,14 @@
+
+#include "decoder.h"
+
+void display_1_send_num(unsigned char num) {
+
+	PORTA &= 0x81;			// Disable all displays
+	PORTA |= (1 << PA1);	// Enable display 1
+
+	num = ~(num);			// Invert num to work with common anode decoder
+
+	PORTC &= F0;			// Clear current num
+	PORTC |= num;			// Set current num
+
+}

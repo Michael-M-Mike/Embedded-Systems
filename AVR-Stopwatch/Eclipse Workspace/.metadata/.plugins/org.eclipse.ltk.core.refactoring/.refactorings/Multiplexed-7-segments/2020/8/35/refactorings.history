@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Multiplexed-7-segments/decoder.c&apos; to &apos;display.c&apos;" description="Rename resource &apos;decoder.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="decoder.c" name="display.c" stamp="1598172949834" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;Multiplexed-7-segments/decoder.h&apos; to &apos;display.h&apos;" description="Rename resource &apos;decoder.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="decoder.h" name="display.h" stamp="1598172957561" updateReferences="true"/>
+</session>

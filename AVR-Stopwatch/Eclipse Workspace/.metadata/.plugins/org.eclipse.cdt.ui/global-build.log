@@ -1,0 +1,48 @@
+01:49:14 **** Incremental Build of configuration Debug for project Multiplexed-7-segments ****
+make all 
+Building file: ../display.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"display.d" -MT"display.o" -c -o "display.o" "../display.c"
+Finished building: ../display.c
+ 
+Building file: ../interrupt.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"interrupt.d" -MT"interrupt.o" -c -o "interrupt.o" "../interrupt.c"
+Finished building: ../interrupt.c
+ 
+Building file: ../main.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"main.d" -MT"main.o" -c -o "main.o" "../main.c"
+In file included from ../main.c:31:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+Finished building: ../main.c
+ 
+Building file: ../timer.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"timer.d" -MT"timer.o" -c -o "timer.o" "../timer.c"
+Finished building: ../timer.c
+ 
+Building target: Multiplexed-7-segments.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Multiplexed-7-segments.map -mmcu=atmega16 -o "Multiplexed-7-segments.elf"  ./display.o ./interrupt.o ./main.o ./timer.o   
+Finished building target: Multiplexed-7-segments.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Multiplexed-7-segments.elf  >"Multiplexed-7-segments.lss"
+Finished building: Multiplexed-7-segments.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 Multiplexed-7-segments.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:    4626 bytes (28.2% Full)
+(.text + .data + .bootloader)
+
+Data:         17 bytes (1.7% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
