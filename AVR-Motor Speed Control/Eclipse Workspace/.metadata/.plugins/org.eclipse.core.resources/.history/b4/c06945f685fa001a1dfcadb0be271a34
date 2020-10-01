@@ -1,0 +1,73 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		adc.c
+ *
+ * 	[Description]	Source File for ADC Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#include "adc.h"
+
+
+/*******************************************************************************
+ *                          Global Variables                                   *
+ *******************************************************************************/
+/* Global variable to hold the result of the ADC conversion */
+volatile uint16 g_ADC_channel = 0;
+
+/* Global variable to hold the address of the call back function in the application */
+static volatile void (*g_ADC_callback_ptr)(void) = NULL_PTR;
+
+
+/*******************************************************************************
+ *                           ISR Definition                                    *
+ *******************************************************************************/
+ISR(ADC_vect) {
+
+	/* Read ADC Data after conversion */
+	g_ADC_channel = ADC;
+
+	if (g_ADC_callback_ptr != NULL_PTR) {
+		(*g_ADC_callback_ptr)();
+	}
+}
+
+
+/*******************************************************************************
+ *                            ADC Functions                                    *
+ *******************************************************************************/
+void ADC_init(const ADC_TYPE_CONFIG * config_ptr) {
+
+	/* Initialize the ADMUX register as 0 */
+	ADMUX = 0;
+
+	/* Reference Selection Bits */
+	ADMUX |= (config_ptr->vref << 6);
+
+	/* Enable ADC */
+	SET_BIT(ADCSRA, ADEN);
+
+	/* Enable ADC Interrupt */
+	SET_BIT(ADCSRA, ADIE);
+
+	/* Division Factor = config_ptr->prescaler */
+	ADCSRA = (ADCSRA & 0xF8) | (config_ptr->prescaler);
+}
+
+
+void ADC_read_channel(uint8 channel_num) {
+
+	/* Select Channel */
+	ADMUX = (ADMUX & 0xE0) | (channel_num & 0x07);
+
+	/* Start Conversion */
+	SET_BIT(ADCSRA, ADSC);
+}
+
+
+void ADC_set_callback(void (*callback_fn_ptr)(void)) {
+	g_ADC_callback_ptr = callback_fn_ptr;
+}

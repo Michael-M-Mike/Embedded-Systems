@@ -1,0 +1,13 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		external_interrupts.c
+ *
+ * 	[Description]	Source File for External Interrupts Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#include "external_interrupts.h"
+

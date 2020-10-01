@@ -1,0 +1,34 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		external_interrupts.h
+ *
+ * 	[Description]	Header File for External Interrupts Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#ifndef EXTERNAL_INTERRUPTS_H_
+#define EXTERNAL_INTERRUPTS_H_
+
+#include "std_types.h"
+#include "common_macros.h"
+#include "controller_config.h"
+
+
+/*******************************************************************************
+ *                          Dynamic Configuration							   *
+ *******************************************************************************/
+/* Interrupt Sense Control */
+typedef enum {
+	LOW_LEVEL, LEVEL_CHANGE, FALLING_EDGE, RISING_EDGE
+} EXT_INT_SENSE_CTRL;
+
+
+typedef struct {
+	EXT_INT_SENSE_CTRL sense_control;
+} EXT_INT_TYPE_CONFIG;
+
+
+#endif /* EXTERNAL_INTERRUPTS_H_ */

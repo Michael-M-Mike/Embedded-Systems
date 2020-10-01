@@ -1,0 +1,154 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		keypad.c
+ *
+ * 	[Description]	Source File for Keypad Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#include "keypad.h"
+
+
+/*******************************************************************************
+ *                      (Private) Functions Prototypes                         *
+ *******************************************************************************/
+
+#if (N_COL == 3)
+
+/* Maps the switch keypad grid number to its functional number on a 4x3 keypad */
+static uint8 KEYPAD_4x3_adjustKeyNumber(uint8 button_number);
+
+#elif (N_COL == 4)
+
+/* Maps the switch keypad grid number to its functional number on a 4x4 keypad */
+static uint8 KEYPAD_4x4_adjustKeyNumber(uint8 button_number);
+
+#endif
+
+
+/*******************************************************************************
+ *                      (Public) Functions Definition                          *
+ *******************************************************************************/
+uint8 KEYPAD_getPressedKey(void) {
+
+	/* Local Variables */
+	uint8 row, col;
+
+	/* Polling Loop */
+	for(;;) {
+
+		/* Iterate over keypad's columns */
+		for (col = 0; col < N_COL; ++col) {
+
+			/* Set col as output,
+			 * Set all other keypad pins as input */
+			KEYPAD_PORT_DIR = (0b00010000 << col);
+
+			/* Output 0 on col,
+			 * Activate internal pull-up resistors on all other keypad pins */
+			KEYPAD_PORT_OUT = ~(0b00010000 << col);
+
+			/* Iterate over keypad's rows */
+			for (row = 0; row < N_ROW; ++row) {
+
+				/* Check if switch is pressed in this row */
+				if(BIT_IS_CLEARED(KEYPAD_PORT_IN, row)) {
+
+					#if (N_COL == 3)
+					return KEYPAD_4x3_adjustKeyNumber((row * N_COL) + col + 1);
+
+					#elif (N_COL == 4)
+					return KEYPAD_4x4_adjustKeyNumber((row * N_COL) + col + 1);
+
+					#endif
+				}
+			}
+		}
+	}
+}
+
+
+/*******************************************************************************
+ *                      (Private) Functions Definition                         *
+ *******************************************************************************/
+#if (N_COL == 3)
+
+static uint8 KEYPAD_4x3_adjustKeyNumber(uint8 button_number) {
+
+	switch(button_number) {
+
+		case 10: return '*';
+				 break;
+
+		case 11: return 0;
+				 break;
+
+		case 12: return '#';
+				 break;
+
+		default: return button_number;
+	}
+}
+
+#elif (N_COL == 4)
+
+static uint8 KEYPAD_4x4_adjustKeyNumber(uint8 button_number) {
+
+	switch(button_number) {
+
+		case 1: return 7;
+				break;
+
+		case 2: return 8;
+				break;
+
+		case 3: return 9;
+				break;
+
+		case 4: return '/';
+				break;
+
+		case 5: return 4;
+				break;
+
+		case 6: return 5;
+				break;
+
+		case 7: return 6;
+				break;
+
+		case 8: return '*';
+				break;
+
+		case 9: return 1;
+				break;
+
+		case 10: return 2;
+				break;
+
+		case 11: return 3;
+				break;
+
+		case 12: return '-';
+				break;
+
+		case 13: return 13;
+				break;
+
+		case 14: return 0;
+				break;
+
+		case 15: return '=';
+				break;
+
+		case 16: return '+';
+				break;
+
+		default: return button_number;
+	}
+}
+
+#endif

@@ -1,0 +1,67 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		timer.h
+ *
+ * 	[Description]	Header File for Timer Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#ifndef TIMER_H_
+#define TIMER_H_
+
+
+#include "std_types.h"
+#include "common_macros.h"
+#include "controller_config.h"
+
+
+/*******************************************************************************
+ *                          Dynamic Configuration							   *
+ *******************************************************************************/
+typedef enum {
+	NO_CLOCK, TIMER_P_1, TIMER_P_8, TIMER_P_64, TIMER_P_256, TIMER_P_1024,
+	TIMER_EXTERNAL_FALLING, TIMER_EXTERNAL_RISING
+} TIMER_PRESCALER;
+
+typedef enum {
+	COMPARE_DISCONNECTED,
+	COMPARE_TOGGLE,
+	COMPARE_CLEAR_NON_INVERTING,
+	COMPARE_SET_INVERTING
+} TIMER_COMPARE_OUTPUT_MODE;
+
+typedef enum {
+	WGM_10_11_NORMAL_MODE=0,
+	WGM_10_11_CTC_TOP_OCR1A=0,
+	WGM_10_11_CTC_TOP_ICR1=0,
+	WGM_10_11_FAST_PWN_ICR1=2,
+	WGM_10_11_FAST_PWM_OCR1A=3
+} TIMER_WGM_10_11;
+
+typedef enum {
+	NORMAL_MODE=0,
+	CTC_TOP_OCR1A=1,
+	CTC_TOP_ICR1=3,
+	FAST_PWN_ICR1=3,
+	FAST_PWM_OCR1A=3
+} TIMER_WGM_12_13;
+
+/* Structure containing the Timer configuration parameters */
+typedef struct {
+	TIMER_PRESCALER prescaler;
+	TIMER_COMPARE_OUTPUT_MODE ctc_mode_ch1;
+	TIMER_COMPARE_OUTPUT_MODE ctc_mode_ch2;
+	TIMER_WGM_10_11 wgm_10_11;
+	TIMER_WGM_10_11 wgm_12_13;
+
+} TIMER_TYPE_CONFIG;
+
+/*******************************************************************************
+ *                      	Functions Prototypes                               *
+ *******************************************************************************/
+void TIMER_1_init	(TIMER_TYPE_CONFIG* config_ptr);
+
+#endif /* TIMER_H_ */

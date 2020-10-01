@@ -1,0 +1,110 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		main.c
+ *
+ * 	[Description]	Application
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#include <stdio.h>					// Used for sprintf only
+#include "lcd.h"
+#include "adc.h"
+#include "timer.h"
+#include "motor_driver.h"
+#include "external_interrupts.h"
+
+#define ADC_CHANNEL_NUM 3
+
+/*******************************************************************************
+ *                      	Functions Prototypes                               *
+ *******************************************************************************/
+void ISR_INT1(void);
+void ISR_ADC(void);
+
+
+/*******************************************************************************
+ *                      			Main	                                   *
+ *******************************************************************************/
+int main(void) {
+
+
+	/*************************************************** Variables Declaration */
+	char display_buffer[3];
+
+
+	/*************************************************** Modules Configuration */
+	ADC_TYPE_CONFIG ADC_type_config = {AVCC, ADC_P_8};
+	EXT_INT_TYPE_CONFIG INT1_type_config = {RISING_EDGE};
+	MOTOR_TYPE_CONFIG motor_rotation = {CLOCKWISE};
+
+
+	/************************************************** Modules Initialization */
+	SET_BIT(SREG, 7);
+
+	LCD_init();
+	LCD_display_string("Duty Cycle: ");
+
+	ADC_init(&ADC_type_config);
+	ADC_set_callback(ISR_ADC);
+
+	MOTOR_1_init();
+	MOTOR_1_ON(&motor_rotation);
+
+	INT1_init(&INT1_type_config);
+	INT1_set_callback(ISR_INT1);
+
+	TIMER_0_PWM_init(TIMER_P_8);
+
+
+	/*************************************************************** Main Loop */
+	for(;;) {
+
+		/* Start ADC Conversion */
+		ADC_read_channel(ADC_CHANNEL_NUM);
+
+		/* Shift LCD Cursor */
+		LCD_goto_row_col(0, 12);
+
+		/* Display ADC Result */
+		sprintf(display_buffer, "% 3d", g_ADC_channel);
+		LCD_display_string(display_buffer);
+		LCD_display_char('%');
+
+		/* Update Duty Cycle */
+		TIMER_0_PWM_set_duty_cyle(g_ADC_channel);
+	}
+}
+
+void ISR_ADC(void) {
+
+	/* Maps the 0-1023 Range to 0-100 Range */
+	/*
+	 * y = mx + q
+	 *
+	 * q = 0
+	 *
+	 * m = 100 / 1023
+	 *
+	 */
+
+	g_ADC_channel = (uint16) (((float32)100 / 1023) * g_ADC_channel);
+}
+
+void ISR_INT1(void) {
+
+	if (g_MOTOR_direction == CLOCKWISE) {
+		MOTOR_1_OFF();
+		MOTOR_TYPE_CONFIG motor_rotation = {COUNTER_CLOCKWISE};
+		MOTOR_1_ON(&motor_rotation);
+		g_MOTOR_direction = COUNTER_CLOCKWISE;
+
+	} else {
+		MOTOR_1_OFF();
+		MOTOR_TYPE_CONFIG motor_rotation = {CLOCKWISE};
+		MOTOR_1_ON(&motor_rotation);
+		g_MOTOR_direction = CLOCKWISE;
+	}
+}

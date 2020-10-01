@@ -1,0 +1,49 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		timer.c
+ *
+ * 	[Description]	Source File for Timer Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#include "timer.h"
+
+/*******************************************************************************
+ *                           ISR Definition                                    *
+ *******************************************************************************/
+
+
+
+/*******************************************************************************
+ *                            Timer Functions                                  *
+ *******************************************************************************/
+void TIMER_1_init(TIMER_TYPE_CONFIG* config_ptr) {
+
+	/* Initialize TCCR1A */
+	TCCR1A = 0;
+	TCCR1A |= config_ptr->wgm_10_11;
+	TCCR1A |= (config_ptr->foc << 2);
+	TCCR1A |= (config_ptr->ctc_mode_ch2 << 4);
+	TCCR1A |= (config_ptr->ctc_mode_ch1 << 6);
+
+	/* Initialize TCCR1B */
+	TCCR1B = 0;
+	TCCR1B |= config_ptr->prescaler;
+	TCCR1B |= (config_ptr->wgm_12_13 << 3);
+
+	/* Initialize TCNT */
+	TCNT1 = 0;
+
+	/* Initialize Compare Values */
+	OCR1A = config_ptr->compare_value_ch1;
+	OCR1B = config_ptr->compare_value_ch2;
+
+	/* Initialize Interrupts */
+	TIMSK |= (config_ptr->overflow_interrupt_enable << 2);
+	TIMSK |= (config_ptr->ctc_ch2_interrupt_enable << 3);
+	TIMSK |= (config_ptr->ctc_ch1_interrupt_enable << 4);
+
+}

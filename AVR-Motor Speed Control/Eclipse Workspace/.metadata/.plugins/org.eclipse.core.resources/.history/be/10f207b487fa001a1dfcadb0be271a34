@@ -1,0 +1,49 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		external_interrupts.c
+ *
+ * 	[Description]	Source File for External Interrupts Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#include "external_interrupts.h"
+
+
+/*******************************************************************************
+ *                          Global Variables                                   *
+ *******************************************************************************/
+/* Global variables to hold the address of the call back function in the application */
+static volatile void (*g_INT0_callback_ptr)(void) = NULL_PTR;
+static volatile void (*g_INT1_callback_ptr)(void) = NULL_PTR;
+
+
+/*******************************************************************************
+ *                           ISR Definitions                                   *
+ *******************************************************************************/
+ISR(INT0_vect) {
+
+	/* Run the callback function if set by the user */
+	if (g_INT0_callback_ptr != NULL_PTR) {
+		g_INT0_callback_ptr();
+	}
+}
+
+ISR(INT1_vect) {
+
+	/* Run the callback function if set by the user */
+	if (g_INT1_callback_ptr != NULL_PTR) {
+		g_INT1_callback_ptr();
+	}
+}
+
+
+/*******************************************************************************
+ *                            EXT_INT Functions                                *
+ *******************************************************************************/
+void INT0_init(const EXT_INT_TYPE_CONFIG * config_ptr) {
+	MCUCR |= config_ptr->sense_control;
+}
+

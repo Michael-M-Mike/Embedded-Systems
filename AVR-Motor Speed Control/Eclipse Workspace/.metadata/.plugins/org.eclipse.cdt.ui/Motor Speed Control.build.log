@@ -1,0 +1,12 @@
+17:43:33 **** Incremental Build of configuration Debug for project Motor Speed Control ****
+make all 
+Building target: Motor Speed Control.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Motor Speed Control.map -mmcu=atmega16 -o "Motor Speed Control.elf"  ./adc.o ./external_interrupts.o ./lcd.o ./main.o ./motor_driver.o   
+avr-gcc.exe: Speed: No such file or directory
+avr-gcc.exe: Control.map: No such file or directory
+make: *** [Motor Speed Control.elf] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+
+17:43:33 Build Failed. 1 errors, 0 warnings. (took 250ms)
+

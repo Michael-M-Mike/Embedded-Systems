@@ -1,0 +1,60 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		adc.c
+ *
+ * 	[Description]	Source File for ADC Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#include "adc.h"
+
+
+/*******************************************************************************
+ *                          Global Variables                                   *
+ *******************************************************************************/
+volatile uint16 g_ADC_channel = 0;
+
+
+/*******************************************************************************
+ *                           ISR Definition                                    *
+ *******************************************************************************/
+ISR(ADC_vect) {
+
+	/* Read ADC Data after conversion */
+	g_ADC_channel = ADC;
+}
+
+
+/*******************************************************************************
+ *                            ADC Functions                                    *
+ *******************************************************************************/
+void ADC_init(const ADC_TYPE_CONFIG * config_ptr) {
+
+	/* Initialize the ADMUX register as 0 */
+	ADMUX = 0;
+
+	/* Reference Selection Bits */
+	ADMUX |= (config_ptr->vref << 6);
+
+	/* Enable ADC */
+	SET_BIT(ADCSRA, ADEN);
+
+	/* Enable ADC Interrupt */
+	SET_BIT(ADCSRA, ADIE);
+
+	/* Division Factor = config_ptr->prescaler */
+	ADCSRA = (ADCSRA & 0xF8) | (config_ptr->prescaler);
+}
+
+
+void ADC_read_channel(uint8 channel_num) {
+
+	/* Select Channel */
+	ADMUX = (ADMUX & 0xE0) | (channel_num & 0x07);
+
+	/* Start Conversion */
+	SET_BIT(ADCSRA, ADSC);
+}

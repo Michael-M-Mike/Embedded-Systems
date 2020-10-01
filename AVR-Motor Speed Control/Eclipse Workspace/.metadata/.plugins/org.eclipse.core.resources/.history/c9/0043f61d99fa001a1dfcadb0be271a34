@@ -1,0 +1,17 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		timer.h
+ *
+ * 	[Description]	Header File for Timer Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#ifndef TIMER_H_
+#define TIMER_H_
+
+
+
+#endif /* TIMER_H_ */

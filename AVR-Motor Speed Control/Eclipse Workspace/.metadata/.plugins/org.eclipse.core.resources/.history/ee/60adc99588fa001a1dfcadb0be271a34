@@ -1,0 +1,19 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		adc.h
+ *
+ * 	[Description]	Header File for ADC Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#ifndef MOTOR_DRIVER_H_
+#define MOTOR_DRIVER_H_
+
+#include "std_types.h"
+#include "common_macros.h"
+#include "controller_config.h"
+
+#endif /* MOTOR_DRIVER_H_ */

@@ -1,0 +1,42 @@
+13:27:24 **** Incremental Build of configuration Debug for project Motor_Speed_Control ****
+make all 
+Building file: ../main.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega16 -DF_CPU=1000000UL -MMD -MP -MF"main.d" -MT"main.o" -c -o "main.o" "../main.c"
+In file included from ../controller_config.h:24,
+                 from ../lcd.h:19,
+                 from ../main.c:13:
+c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../main.c: In function 'main':
+../main.c:49: warning: pointer targets in passing argument 1 of 'LCD_display_string' differ in signedness
+../main.c:51: warning: pointer targets in passing argument 1 of 'LCD_display_string' differ in signedness
+../main.c:76: warning: pointer targets in passing argument 1 of 'LCD_display_string' differ in signedness
+Finished building: ../main.c
+ 
+Building target: Motor_Speed_Control.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Motor_Speed_Control.map -mmcu=atmega16 -o "Motor_Speed_Control.elf"  ./adc.o ./external_interrupts.o ./lcd.o ./main.o ./motor_driver.o ./timer.o   
+Finished building target: Motor_Speed_Control.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Motor_Speed_Control.elf  >"Motor_Speed_Control.lss"
+Finished building: Motor_Speed_Control.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega16 Motor_Speed_Control.elf
+AVR Memory Usage
+----------------
+Device: atmega16
+
+Program:    9330 bytes (56.9% Full)
+(.text + .data + .bootloader)
+
+Data:        306 bytes (29.9% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+13:27:24 Build Finished. 0 errors, 4 warnings. (took 621ms)
+

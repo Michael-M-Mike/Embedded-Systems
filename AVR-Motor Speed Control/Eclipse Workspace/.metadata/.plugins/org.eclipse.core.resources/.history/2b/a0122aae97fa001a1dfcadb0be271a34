@@ -1,0 +1,89 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		motor_driver.h
+ *
+ * 	[Description]	Header File for Motor Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#include "motor_driver.h"
+
+
+
+/*******************************************************************************
+ *                          Global Variables                                   *
+ *******************************************************************************/
+/* Global variable to hold the current direction of the motor */
+volatile uint16 g_MOTOR_direction = CLOCKWISE;
+
+
+/*******************************************************************************
+ *                            Motor Driver Functions						   *
+ *******************************************************************************/
+#ifdef MOTOR_EN1
+void MOTOR_1_init(void) {
+
+	/* Set the input and enable pins as output */
+	SET_BIT(MOTOR_PORT_DIRECTION, MOTOR_IN1);
+	SET_BIT(MOTOR_PORT_DIRECTION, MOTOR_IN2);
+	SET_BIT(MOTOR_PORT_DIRECTION, MOTOR_EN1);
+
+	/* Initialize the pins as 0 */
+	MOTOR_1_OFF();
+}
+
+void MOTOR_1_OFF(void) {
+
+	CLEAR_BIT(MOTOR_PORT, MOTOR_IN1);
+	CLEAR_BIT(MOTOR_PORT, MOTOR_IN2);
+	//CLEAR_BIT(MOTOR_PORT, MOTOR_EN1);
+}
+
+void MOTOR_1_ON(MOTOR_TYPE_CONFIG* motor_rotation) {
+
+	SET_BIT(MOTOR_PORT, MOTOR_EN1);
+
+	if (motor_rotation->rotation == CLOCKWISE) {
+		SET_BIT(MOTOR_PORT, MOTOR_IN1);
+		CLEAR_BIT(MOTOR_PORT, MOTOR_IN2);
+	} else {
+		CLEAR_BIT(MOTOR_PORT, MOTOR_IN1);
+		SET_BIT(MOTOR_PORT, MOTOR_IN2);
+	}
+}
+
+#endif
+
+#ifdef MOTOR_EN2
+void MOTOR_2_init(void) {
+
+	/* Set the input and enable pins as output */
+	SET_BIT(MOTOR_PORT_DIRECTION, MOTOR_IN3);
+	SET_BIT(MOTOR_PORT_DIRECTION, MOTOR_IN4);
+	SET_BIT(MOTOR_PORT_DIRECTION, MOTOR_EN2);
+
+	/* Initialize the pins as 0 */
+	MOTOR_2_OFF();
+}
+
+void MOTOR_2_OFF	(void) {
+
+	CLEAR_BIT(MOTOR_PORT_DIRECTION, MOTOR_IN3);
+	CLEAR_BIT(MOTOR_PORT_DIRECTION, MOTOR_IN4);
+	CLEAR_BIT(MOTOR_PORT_DIRECTION, MOTOR_EN2);
+}
+
+void MOTOR_2_ON(MOTOR_TYPE_CONFIG* motor_rotation) {
+
+	if (motor_rotation->rotation == CLOCKWISE) {
+		SET_BIT(MOTOR_PORT, MOTOR_IN3);
+		SET_BIT(MOTOR_PORT, MOTOR_IN4);
+	} else {
+		SET_BIT(MOTOR_PORT, MOTOR_IN3);
+		SET_BIT(MOTOR_PORT, MOTOR_IN4);
+	}
+}
+#endif

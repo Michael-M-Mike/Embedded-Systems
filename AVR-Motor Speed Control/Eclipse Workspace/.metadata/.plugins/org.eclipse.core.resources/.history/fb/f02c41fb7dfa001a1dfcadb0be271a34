@@ -1,0 +1,50 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		adc.h
+ *
+ * 	[Description]	Header File for ADC Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#include "std_types.h"
+#include "common_macros.h"
+#include "controller_config.h"
+
+
+/*******************************************************************************
+ *                          External Variables                                 *
+ *******************************************************************************/
+/* Extern Public global variables to be used by other modules */
+extern volatile uint16 g_ADC_channel;
+
+
+/*******************************************************************************
+ *                          Dynamic Configuration							   *
+ *******************************************************************************/
+/* Reference Selection (Vref > Vsensor_max) */
+typedef enum {
+	AREF, AVCC, V2_56
+} ADC_VREF;
+
+
+/* ADC Prescaler Select Bits (by which the CPU frequency is divided) */
+typedef enum {
+	P_2, P_4, P_8, P_16, P_32, P_64, _128
+} ADC_PRESCALER;
+
+
+/* Structure containing the ADC configuration parameters */
+typedef struct {
+	ADC_VREF vref;
+	ADC_PRESCALER prescaler;
+} ADC_TYPE_CONFIG;
+
+
+/*******************************************************************************
+ *                      	Functions Prototypes                               *
+ *******************************************************************************/
+void ADC_init			(void);
+void ADC_read_channel 	(uint8 channel_num);

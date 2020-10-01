@@ -1,0 +1,39 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		motor_driver.h
+ *
+ * 	[Description]	Header File for Motor Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#include "motor_driver.h"
+
+
+/*******************************************************************************
+ *                            Motor Driver Functions						   *
+ *******************************************************************************/
+void MOTOR_1_init	(void) {
+
+	/* Set the input and enable pins as output */
+	SET_BIT(MOTOR_PORT_DIRECTION, MOTOR_IN1);
+	SET_BIT(MOTOR_PORT_DIRECTION, MOTOR_IN2);
+	SET_BIT(MOTOR_PORT_DIRECTION, MOTOR_EN1);
+
+	/* Initialize the pins as 0 */
+	MOTOR_1_OFF();
+
+}
+void MOTOR_2_init	(void);
+
+void MOTOR_1_ON		(MOTOR_TYPE_CONFIG* motor_rotation);
+void MOTOR_1_OFF	(void) {
+
+	CLEAR_BIT(MOTOR_PORT_DIRECTION, MOTOR_IN1);
+	CLEAR_BIT(MOTOR_PORT_DIRECTION, MOTOR_IN2);
+	CLEAR_BIT(MOTOR_PORT_DIRECTION, MOTOR_EN1);
+}
+void MOTOR_2_ON		(MOTOR_TYPE_CONFIG* motor_rotation);
+void MOTOR_2_OFF	(void);

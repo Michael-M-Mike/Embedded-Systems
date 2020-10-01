@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Delete 2 resources" deleteContents="false" description="Delete 2 resources" element1="/Motor Speed Control/keypad.c" element2="/Motor Speed Control/keypad.h" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="2" stamp="1600521436770"/>&#x0A;<refactoring comment="Rename resource &apos;Motor Speed Control&apos; to &apos;Motor_Speed_Control&apos;" description="Rename resource &apos;Motor Speed Control&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/Motor Speed Control" name="Motor_Speed_Control" stamp="1600530290607" updateReferences="true"/>
+</session>

@@ -1,0 +1,52 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		timer.h
+ *
+ * 	[Description]	Header File for Timer Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#ifndef TIMER_H_
+#define TIMER_H_
+
+
+#include "std_types.h"
+#include "common_macros.h"
+#include "controller_config.h"
+
+
+/*******************************************************************************
+ *                          Dynamic Configuration							   *
+ *******************************************************************************/
+typedef enum {
+	NO_CLOCK, P_1, P_8, P_64, P256, P_1024, EXTERNAL_FALLING, EXTERNAL_RISING
+} TIMER_PRESCALER;
+
+typedef enum {
+	TIMER_COMPARE_DISCONNECTED_NON_PWM,
+	TOGGLE_ON_COMPARE_MATCH,
+	CLEAR_ON_COMPARE_MATCH,
+	SET_ON_COMPARE_MATCH
+} TIMER_COMPARE_OUTPUT_MODE_NON_PWM;
+
+typedef enum {
+	TIMER_COMPARE_DISCONNECTED_FAST_PWM,
+	TOGGLE_OC1A_ON_COMPARE_MATCH,
+	NON_INVERTING_MODE,
+	INVERTING_MODE
+} TIMER_COMPARE_OUTPUT_MODE_FAST_PWM;
+
+typedef enum {
+
+};
+
+
+/*******************************************************************************
+ *                      	Functions Prototypes                               *
+ *******************************************************************************/
+
+
+#endif /* TIMER_H_ */

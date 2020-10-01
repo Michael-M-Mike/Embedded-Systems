@@ -1,0 +1,73 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		timer.h
+ *
+ * 	[Description]	Header File for Timer Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#ifndef TIMER_H_
+#define TIMER_H_
+
+
+#include "std_types.h"
+#include "common_macros.h"
+#include "controller_config.h"
+
+
+/*******************************************************************************
+ *                          Dynamic Configuration							   *
+ *******************************************************************************/
+typedef enum {
+	NO_CLOCK, P_1, P_8, P_64, P256, P_1024, EXTERNAL_FALLING, EXTERNAL_RISING
+} TIMER_PRESCALER;
+
+typedef enum {
+	COMPARE_DISCONNECTED_NON_PWM,
+	TOGGLE_ON_COMPARE_MATCH,
+	CLEAR_ON_COMPARE_MATCH,
+	SET_ON_COMPARE_MATCH
+} TIMER_COMPARE_OUTPUT_MODE_NON_PWM;
+
+typedef enum {
+	COMPARE_DISCONNECTED_FAST_PWM,
+	TOGGLE_OC1A_ON_COMPARE_MATCH,
+	NON_INVERTING_MODE,
+	INVERTING_MODE
+} TIMER_COMPARE_OUTPUT_MODE_FAST_PWM;
+
+typedef enum {
+	NORMAL_MODE,
+	PHASE_CORRECT_8,
+	PHASE_CORRECT_9,
+	PHASE_CORRECT_10,
+	CTC_TOP_OCR1A,
+	FAST_PWM_8,
+	FAST_PWM_9,
+	FAST_PWM_10,
+	PHASE_FREQ_CORRECT_ICR1,
+	PHASE_FREQ_CORRECT_OCR1A,
+	PHASE_CORRECT_ICR1,
+	PHASE_CORRECT_OCR1A,
+	CTC_TOP_ICR1,
+	RESERVED,
+	FAST_PWN_ICR1,
+	FAST_PWM_OCR1A
+} TIMER_WAVEFORM_GENERATION_MODE;
+
+/* Structure containing the Timer configuration parameters */
+typedef struct {
+	TIMER_PRESCALER prescaler;
+	TIMER_COMPARE_OUTPUT_MODE_NON_PWM ctc_mode_non_pwm;
+	TIMER_COMPARE_OUTPUT_MODE_FAST_PWM ctc_mode_fast_pwm;
+} TIMER_TYPE_CONFIG;
+
+/*******************************************************************************
+ *                      	Functions Prototypes                               *
+ *******************************************************************************/
+void TIMER_1_init	()
+
+#endif /* TIMER_H_ */

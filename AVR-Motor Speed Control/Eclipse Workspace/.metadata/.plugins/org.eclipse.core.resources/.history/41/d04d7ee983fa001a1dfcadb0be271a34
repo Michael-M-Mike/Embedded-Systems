@@ -1,0 +1,22 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		external_interrupts.h
+ *
+ * 	[Description]	Header File for External Interrupts Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#ifndef EXTERNAL_INTERRUPTS_H_
+#define EXTERNAL_INTERRUPTS_H_
+
+#include "std_types.h"
+#include "common_macros.h"
+#include "controller_config.h"
+
+
+
+
+#endif /* EXTERNAL_INTERRUPTS_H_ */

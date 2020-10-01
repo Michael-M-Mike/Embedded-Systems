@@ -1,0 +1,63 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		adc.h
+ *
+ * 	[Description]	Header File for ADC Driver.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#ifndef MOTOR_DRIVER_H_
+#define MOTOR_DRIVER_H_
+
+
+#include "std_types.h"
+#include "common_macros.h"
+#include "controller_config.h"
+
+
+/*******************************************************************************
+ *                          Static Configuration							   *
+ *******************************************************************************/
+#define MOTOR_EN1 				PA0
+#define MOTOR_IN1 				PA1
+#define MOTOR_IN2 				PA2
+
+#define MOTOR_EN2
+#define MOTOR_IN3
+#define MOTOR_IN4
+
+#define MOTOR_PORT 				PORTA
+#define MOTOR_PORT_DIRECTION	DDRA
+
+
+
+/*******************************************************************************
+ *                          Dynamic Configuration							   *
+ *******************************************************************************/
+typedef enum {
+	CLOCKWISE, COUNTER_CLOCKWISE
+} ROTATION;
+
+
+typedef struct {
+	ROTATION rotation;
+} MOTOR_ROTATION;
+
+
+/*******************************************************************************
+ *                      	Functions Prototypes                               *
+ *******************************************************************************/
+/* Initializes the motors' driver module */
+void MOTOR_1_init	(void);
+void MOTOR_2_init	(void);
+
+void MOTOR_1_ON		(void);
+void MOTOR_1_OFF	(void);
+void MOTOR_2_ON		(void);
+void MOTOR_2_OFF	(void);
+
+
+#endif /* MOTOR_DRIVER_H_ */

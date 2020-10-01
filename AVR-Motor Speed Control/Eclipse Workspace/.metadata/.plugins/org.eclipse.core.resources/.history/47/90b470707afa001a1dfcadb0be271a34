@@ -1,0 +1,44 @@
+
+/*******************************************************************************
+ *
+ * 	[File Name]		keypad.h
+ *
+ * 	[Description]	Header File for Keypad Driver.
+ *
+ * 	[Interface]		Rows are connected to Pin0 -> Pin3
+ * 					Columns take the rest of the port.
+ *
+ *	[Author]		Michael Magdy
+ *
+ ******************************************************************************/
+
+#ifndef KEYPAD_H_
+#define KEYPAD_H_
+
+
+#include "std_types.h"
+#include "common_macros.h"
+#include "controller_config.h"
+
+
+/*******************************************************************************
+ *                      	Keypad Static Configuration				           *
+ *******************************************************************************/
+/* Keypad configurations for number of rows and columns */
+#define N_COL 4
+#define N_ROW 4
+
+/* Keypad Port Configurations */
+#define KEYPAD_PORT_OUT PORTA
+#define KEYPAD_PORT_IN  PINA
+#define KEYPAD_PORT_DIR DDRA
+
+
+/*******************************************************************************
+ *                      	Functions Prototypes                               *
+ *******************************************************************************/
+/* Function that polls the keypad and returns the pressed key */
+uint8 KEYPAD_getPressedKey(void);
+
+
+#endif /* KEYPAD_H_ */
